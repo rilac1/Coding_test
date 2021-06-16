@@ -1,7 +1,27 @@
-array = [7,5,9,0,3,1,6,2,4,8]
+from collections import deque
 
-for i in range(len(array)):
-	min_index = i
-	for j in range(i+1, len(array)):
-		if min_index > array[j]:
-			array
+def bfs(graph, start, visited):
+	queue = deque([start])
+	visited[start] = True
+	while queue:
+		v = queue.popleft()
+		for i in graph:
+			if not visited[i]:
+				queue.append(i)
+				visited[i] = True
+			
+graph = [
+	[],
+	[2,3,8],
+	[1,7],
+	[1,4,5],
+	[3,5],
+	[3,4],
+	[7],
+	[2,6,8],
+	[1,7]
+]
+
+visited = [False] * 9
+
+bfs(graph,1,visited)
