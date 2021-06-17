@@ -1,5 +1,6 @@
 from collections import deque
 import itertools
+import copy
 
 def bfs(graph,x,y):
     queue = deque()
@@ -28,22 +29,11 @@ def test(graph):
                 count += 1
     return count
 
-# n, m = map(int, input().split())
+n, m = map(int, input().split())
 n, m = 7, 7
 graph = []
-graph = [
-    [2,0,0,0,1,1,0],
-    [0,0,1,0,1,2,0],
-    [0,1,1,0,1,0,0],
-    [0,1,0,0,0,0,0],
-    [0,0,0,0,0,1,1],
-    [0,1,0,0,0,0,0],
-    [0,1,0,0,0,0,0]
-]
-'''
 for i in range(n):
     graph.append(list(map(int, input().split())))
-'''
 
 virus = []
 for i in range(n):
@@ -56,24 +46,13 @@ dy = [0,1,0,-1]
 
 result = 0
 for i in itertools.permutations(list(range(n*m)),3):
-    t_graph = graph
+    t_graph = copy.deepcopy(graph)
     for j in i:
         x = j//n
         y = j % m
-        if t_graph[x][y]==0:
+        if t_graph[x][y]!=0:
             break
         t_graph[x][y] = 1
     result = max(result, test(t_graph))
 
 print(result)
-
-'''
-7 7
-2 0 0 0 1 1 0
-0 0 1 0 1 2 0
-0 1 1 0 1 0 0
-0 1 0 0 0 0 0
-0 0 0 0 0 1 1
-0 1 0 0 0 0 0
-0 1 0 0 0 0 0
-'''
