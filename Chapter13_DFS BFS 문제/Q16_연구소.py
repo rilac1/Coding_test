@@ -1,39 +1,43 @@
-from collections import deque
-import itertools
-import copy
+n, m = map(int, input().split())
+graph = []
+t_graph = [[0]*m for _ in range(n)]
 
-def bfs(graph):
-    for i in virus:
-        x,y = i[0], i[1]
-        queue = deque()
-        queue.append((x,y))
-        while queue:
-            x, y = queue.popleft()
-            for i in range(4):
-                nx = x + dx[i]
-                ny = y + dy[i]
-                if nx<0 or ny<0 or nx>=n or ny>=m:
-                    continue
-                if graph[nx][ny] == 0:
-                    queue.append((nx,ny))
-                    graph[nx][ny] = 2
+for _ in range(n):
+    graph.append(list(map(int, input().split())))
 
-def test(graph):
+dx = [-1,0,1,0]
+dy = [0,1,0,-1]
+
+result = 0
+
+def virus(x, y):
+    for t in range(4):
+        nx = x + dx[t]
+        ny = y + dy[t]
+        if nx>=0 and nx<n and ny>=0 and ny<m:
+            if t_graph[nx][ny] == 0:
+                t_graph[nx][ny] = 2
+                virus(nx, ny)
+
+def test():
     count = 0
     for i in range(n):
         for j in range(m):
-            if graph[i][j]==0:
+            if t_graph[i][j]==0:
                 count += 1
     return count
 
 def dfs(count):
     global result
-    if count == 0:
-        result = 0
     if count==3:
-        t_graph = copy.deepcopy(graph)
-        bfs(t_graph)
-        result = max(result, test(t_graph))
+        for i in range(n):
+            for j in range(m):
+                t_graph[i][j] = graph[i][j]
+        for i in range(n):
+            for j in range(m):
+                if t_graph[i][j] == 2:
+                    virus(i, j)
+        result = max(result, test())
         return
     for i in range(n):
         for j in range(m):
@@ -41,23 +45,8 @@ def dfs(count):
                 graph[i][j] = 1
                 count += 1
                 dfs(count)
-                count -= 1
                 graph[i][j] = 0
-
-
-n, m = map(int, input().split())
-graph = []
-for i in range(n):
-    graph.append(list(map(int, input().split())))
-
-virus = []
-for i in range(n):
-    for j in range(m):
-        if graph[i][j]==2:
-            virus.append((i,j))
-
-dx = [-1,0,1,0]
-dy = [0,1,0,-1]
+                count -= 1
 
 dfs(0)
 print(result)
