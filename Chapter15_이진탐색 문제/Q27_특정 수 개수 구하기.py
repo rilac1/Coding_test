@@ -4,7 +4,7 @@ data = list(map(int, input().split()))
 
 def count_by_range(a, left_value, right_value):
     left = bisect_left(a, left_value)
-    right = bisect_left(a, right_value)
+    right = bisect_right(a, right_value)
     return right-left
 
 count = count_by_range(data, x,x)
