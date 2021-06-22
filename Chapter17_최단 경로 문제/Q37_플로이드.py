@@ -24,3 +24,4 @@ for i in graph[1:]:
         else:
             print(j, end = ' ')
     print()
+    
