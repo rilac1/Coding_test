@@ -1,3 +1,4 @@
+# 1932
 n = int(input())
 data = []
 for _ in range(n):
